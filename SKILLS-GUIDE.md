@@ -52,8 +52,10 @@ skill will offer to run it inline before continuing.
 | Command | What It Does |
 |---------|-------------|
 | `/browse` | Headless browser — navigate pages, click elements, take screenshots, test responsive layouts, run JS. Used by many other skills under the hood (`$B`). |
+| `/connect-chrome` | Launches a real Chrome browser controlled by gstack with the Side Panel extension auto-loaded. Lets you watch everything gstack does in the browser in real time. |
 | `/investigate` | Systematic root-cause debugging. Four phases: investigate → analyze → hypothesize → implement. **Iron law: no fixes without understanding the root cause first.** Use when something is broken. |
 | `/codex` | Second opinion from OpenAI's Codex CLI. Three modes: **Review** (independent diff review), **Challenge** (adversarial "try to break it"), **Consult** (ask anything). The "200 IQ second opinion." |
+| `/learn` | Manages project learnings across sessions — review, search, prune, and export what gstack has discovered. Keeps track of patterns and past solutions so knowledge persists. |
 
 **When to use:** During active development whenever you need to test, debug, or get a second opinion.
 
@@ -68,6 +70,8 @@ skill will offer to run it inline before continuing.
 | `/qa` | **Test and fix.** Systematically tests your web app, finds bugs, then fixes them with atomic commits and re-verification. Produces before/after health scores. Three tiers: Quick (critical only), Standard (+ medium), Exhaustive (+ cosmetic). |
 | `/qa-only` | **Test and report only.** Same systematic testing as `/qa` but produces a bug report without touching any code. Use when you want to see what's broken without auto-fixing. |
 | `/design-review` | **Visual polish on live site.** Designer's eye for spacing, hierarchy, inconsistency, "AI slop" patterns, slow interactions. Fixes issues iteratively with atomic commits. This works on the *running app*, not the plan. |
+| `/design-shotgun` | **Multi-variant design exploration.** Generates multiple AI design variants, opens them side-by-side for comparison, and collects structured feedback. Great for exploring visual directions quickly. |
+| `/design-html` | **Mockup → production HTML.** Takes an approved AI mockup and generates production-quality HTML/CSS where text reflows properly and heights are dynamic. Use after a design is approved. |
 | `/benchmark` | **Performance regression detection.** Measures page load, Core Web Vitals, bundle sizes. Compares before/after so you catch perf regressions before shipping. |
 
 **When to use:** After your feature is working locally, before shipping.
@@ -77,7 +81,9 @@ skill will offer to run it inline before continuing.
 > **Design skill clarification:**
 > - `/design-consultation` = create a design system (Phase 0, new projects)
 > - `/plan-design-review` = review a *plan* for design quality (Phase 1, before coding)
+> - `/design-shotgun` = generate multiple design variants side-by-side to pick a direction (Phase 3)
 > - `/design-review` = review a *live site* for visual issues and fix them (Phase 3, after coding)
+> - `/design-html` = convert an approved mockup into production HTML/CSS (Phase 3, after approval)
 
 ---
 
@@ -160,9 +166,12 @@ skill will offer to run it inline before continuing.
    (or /autoplan)      → All three in one
         ↓
    [Write code]        → /investigate for debugging, /codex for second opinion
+                         /connect-chrome for live browser view, /learn for knowledge
         ↓
 /qa                    → Test and fix bugs
 /design-review         → Visual polish on live site
+/design-shotgun        → Explore multiple design variants
+/design-html           → Convert approved mockup to production HTML
 /benchmark             → Catch perf regressions
         ↓
 /review                → Code review the diff
@@ -186,7 +195,9 @@ Since "design" appears in many forms:
 |-------|------|----------|-------------------|
 | `/design-consultation` | Starting a new project | Nothing yet — creates the system | No (generates design system) |
 | `/plan-design-review` | Plan exists, before coding | The plan/doc | No (rewrites the plan) |
+| `/design-shotgun` | Exploring visual directions | Generates multiple variants | No (produces options for you to pick) |
 | `/design-review` | After coding, on live site | Running app | **Yes** (atomic commits) |
+| `/design-html` | After design is approved | Approved mockup | **Yes** (generates production HTML/CSS) |
 
 ---
 
